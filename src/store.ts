@@ -14,6 +14,7 @@ interface State {
   labels: LabelData[];
   selected: string | null;
   setBg: (src: string) => void;
+  removeBg: () => void;
   addLabel: () => void;
   updateLabel: (id: string, patch: Partial<LabelData>) => void;
   bulkReplace: (map: Record<string, string>) => void;
@@ -25,6 +26,7 @@ export const useStore = create<State>((set, get) => ({
   labels: [],
   selected: null,
   setBg: (src) => set({ bgSrc: src }),
+  removeBg: () => set({ bgSrc: null }),
   addLabel: () =>
     set((s) => ({
       labels: [

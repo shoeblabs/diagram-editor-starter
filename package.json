@@ -11,21 +11,22 @@
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.3",
+    "@mui/icons-material": "^7.2.0",
     "@mui/material": "^5.15.19",
-    "konva": "^9.3.7",
+    "konva": "^9.3.22",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-dropzone": "^14.2.3",
-    "react-konva": "^19.0.25",
-    "react-konva-utils": "^2.1.0",
+    "react-konva": "^18.0.0",
+    "react-konva-to-svg": "^1.0.2",
+    "react-konva-utils": "^1.1.1",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "@types/konva": "^8.4.2",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.2.1",
     "typescript": "^5.4.2",
-    "vite": "^5.2.0",
-    "@vitejs/plugin-react": "^4.2.1"
+    "vite": "^5.2.0"
   }
 }

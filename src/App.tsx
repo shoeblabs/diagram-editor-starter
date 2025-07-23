@@ -1,6 +1,9 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { Stage, Layer, Image as KImage, Text } from 'react-konva';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ImageIcon from '@mui/icons-material/Image';
+import { Button } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { Image as KImage, Layer, Stage, Text } from 'react-konva';
 import SidePanel from './components/SidePanel';
 import { useStore } from './store';
 
@@ -17,7 +20,7 @@ function useImage(src: string | null): [HTMLImageElement | null] {
 
 const App: React.FC = () => {
   const stageRef = useRef<any>(null);
-  const { bgSrc, setBg, labels, selected, select, updateLabel } = useStore();
+  const { bgSrc, setBg, removeBg, labels, selected, select, updateLabel } = useStore();
   const [bgImg] = useImage(bgSrc);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -26,12 +29,13 @@ const App: React.FC = () => {
       const url = URL.createObjectURL(files[0]);
       setBg(url);
     },
+    disabled: !!bgSrc, // Disable dropzone when image is already present
   });
 
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
       {/* Canvas */}
-      <div style={{ flexGrow: 1, position: 'relative' }} {...getRootProps()}>
+      <div style={{ flexGrow: 1, position: 'relative' }} {...(bgSrc ? {} : getRootProps())}>
         <input {...getInputProps()} />
         <Stage
           ref={stageRef}
@@ -55,6 +59,55 @@ const App: React.FC = () => {
             ))}
           </Layer>
         </Stage>
+
+        {!bgSrc && (
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'grid',
+            placeItems: 'center',
+            background: '#f8fafc',
+            border: '2px dashed #cbd5e1',
+            borderRadius: '8px',
+            margin: '16px',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+          }}>
+            <div style={{
+              textAlign: 'center',
+              color: '#64748b',
+              fontSize: '18px',
+              fontWeight: '500',
+            }}>
+              <div style={{ fontSize: '48px', marginBottom: '16px', display: 'flex', justifyContent: 'center' }}>
+                <ImageIcon style={{ fontSize: '48px', color: '#64748b' }} />
+              </div>
+              <div>Click or drag & drop to add image</div>
+              <div style={{ fontSize: '14px', marginTop: '8px', opacity: 0.7 }}>
+                Supports: JPG, PNG, GIF, WebP
+              </div>
+            </div>
+          </div>
+        )}
+
+        {bgSrc && (
+          <div style={{
+            position: 'absolute',
+            top: '16px',
+            right: '16px',
+            zIndex: 10,
+          }}>
+            <Button
+              variant="contained"
+              color="error"
+              startIcon={<DeleteIcon />}
+              onClick={removeBg}
+              size="small"
+            >
+              Remove Image
+            </Button>
+          </div>
+        )}
 
         {isDragActive && (
           <div style={{
