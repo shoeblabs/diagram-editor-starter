@@ -46,7 +46,16 @@ const App: React.FC = () => {
           }}
         >
           <Layer>
-            {bgImg && <KImage image={bgImg} />}
+            {bgImg && (
+              <KImage 
+                image={bgImg} 
+                draggable={true}
+                onDragEnd={(e) => {
+                  // Optional: You can store the image position in the store if needed
+                  console.log('Image moved to:', e.target.x(), e.target.y());
+                }}
+              />
+            )}
             {labels.map((l) => (
               <Text
                 key={l.id}
